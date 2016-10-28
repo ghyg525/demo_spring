@@ -2,7 +2,6 @@ package org.yangjie.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,10 +29,6 @@ public class JdbcConfig {
 	private String password;
 	
 	
-	@Autowired
-	private DataSource dataSource;
-	
-
 	@Bean // 初始化datasource
 	public DataSource initDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -45,12 +40,12 @@ public class JdbcConfig {
 	}
 	
 	@Bean // 注册spring数据库操作模版
-	JdbcTemplate initJdbcTemplate() {
+	JdbcTemplate initJdbcTemplate(DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
 	
 	@Bean // 注册spring事务管理器
-	DataSourceTransactionManager initTransactionManager() {
+	DataSourceTransactionManager initTransactionManager(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
 	}
 	
